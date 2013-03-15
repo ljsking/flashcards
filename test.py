@@ -8,7 +8,7 @@ def get_img(name):
     infile = opener.open('http://en.wikipedia.org/w/index.php?title=%s&printable=yes'%name)
     from BeautifulSoup import BeautifulSoup
     soup = BeautifulSoup(infile.read())
-    return soup.find('table', 'infobox').find('img')
+    return soup.find('table', 'infobox').find('img')['src']
 
 
 app = Flask(__name__)
@@ -18,6 +18,12 @@ DATABASE = os.path.abspath(os.path.join(__file__, '..', 'database.db'))
 
 def connect_db():
     return sqlite3.connect(DATABASE)
+    
+def query_db(query, args=(), one=False):
+    cur = g.db.execute(query, args)
+    rv = [dict((cur.description[idx][0], value)
+               for idx, value in enumerate(row)) for row in cur.fetchall()]
+    return (rv[0] if rv else None) if one else rv
 
 @app.before_request
 def before_request():
@@ -28,9 +34,18 @@ def teardown_request(exception):
     if hasattr(g, 'db'):
         g.db.close()
 
-@app.route("/<name>")
-def hello(name):
-    return str(get_img(name))
+@app.route("/")
+def hello():
+    q = "SELECT * FROM items ORDER BY RANDOM() LIMIT 1;"
+    rz = query_db(q, one=True)
+    return "<h2>%s</h2><img src='%s'/>"%(rz['name'], rz['img'])
+    
+@app.route("/insert/<name>")
+def insert(name):
+    img=str(get_img(name))
+    g.db.execute('insert into items (name, img) VALUES (?, ?)', (name, img))
+    g.db.commit()
+    return 'ok'
     
 if __name__ == "__main__":
     app.run(debug=True)
