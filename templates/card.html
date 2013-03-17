@@ -1,0 +1,16 @@
+<body>
+<style type="text/css">
+</style>
+<img src='{{card.img}}'/>
+<h2>NAME:<span class='answer' style='display:none'>{{card.name}}</span></h2>
+<h2>IUPAC:<span class='answer' style='display:none'>{{card.desc}}</span></h2>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>    
+<script>
+$(document).ready(function(){
+	$('span.answer').hide();
+  	$("h2").click(function(){
+    	$(this).find('span.answer').toggle('show');
+  	});
+});
+</script>
+</body>
