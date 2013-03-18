@@ -75,7 +75,23 @@
             text-shadow: -1px -1px 0 rgba(0,0,0,.2);
         }
 
-        #carousel li.pane { background: #42d692; }
+        #carousel li.pane {
+			background: #42d692;
+		}
+		
+		#carousel li.pane figure { 
+			display: block;
+			position: absolute;
+			width: 70%;
+			-webkit-backface-visibility: hidden;
+			
+		}
+		
+		li.pane .front {
+		}
+		li.pane .back {
+		  	-webkit-transform: rotateY( 180deg );
+		}
 
     </style>
 </head>
@@ -88,9 +104,13 @@
         <ul>
 			{% for card in cards %}
             <li class="pane">
-				<img src='{{card.img}}'/>
-				<h2>NAME:<span class='answer' style='display:none'>{{card.name}}</span></h2>
-				<h2>IUPAC:<span class='answer' style='display:none'>{{card.desc}}</span></h2>
+				<figure class='front'>
+					<img src='{{card.img}}'/>
+				</figure>
+				<figure class='back'>
+					<h2>NAME:<span class='answer' style='display:none'>{{card.name}}</span></h2>
+					<h2>IUPAC:<span class='answer' style='display:none'>{{card.desc}}</span></h2>
+				</figure>
 			</li>
 			{% endfor %}
         </ul>
