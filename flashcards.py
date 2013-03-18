@@ -38,9 +38,9 @@ def teardown_request(exception):
 
 @app.route("/")
 def hello():
-    q = "SELECT * FROM items ORDER BY RANDOM() LIMIT 1;"
-    rz = query_db(q, one=True)
-    return render_template("card.html", card=rz)
+    q = "SELECT * FROM items ORDER BY RANDOM() LIMIT 5;"
+    rz = query_db(q)
+    return render_template("card.html", cards=rz)
 
 @app.route("/show/<name>")
 def show(name):
