@@ -65,14 +65,22 @@
             -webkit-transform: translate3d(0,0,0);
         }
 
-        #carousel li h2, #carousel li img {
+        #carousel li h2 {
+        	color: #fff;
+            font-size: 18px;
+            top: 40%;
+            left: 0;
+            text-shadow: -1px -1px 0 rgba(0,0,0,.2);
+            width: 100%;
+        }
+
+        #carousel li img {
             color: #fff;
-            font-size: 30px;
             text-align: center;
             top: 40%;
             left: 0;
-            width: 100%;
             text-shadow: -1px -1px 0 rgba(0,0,0,.2);
+            max-height: 1000px;
         }
 
         #carousel li.pane {
@@ -85,12 +93,6 @@
 			width: 70%;
 			-webkit-backface-visibility: hidden;
 			
-		}
-		
-		li.pane .front {
-		}
-		li.pane .back {
-		  	-webkit-transform: rotateY( 180deg );
 		}
 
     </style>
@@ -107,9 +109,11 @@
 				<figure class='front'>
 					<img src='{{card.img}}'/>
 				</figure>
+			</li>
+			<li class="pane">
 				<figure class='back'>
 					<h2>NAME:<span class='answer' style='display:none'>{{card.name}}</span></h2>
-					<h2>IUPAC:<span class='answer' style='display:none'>{{card.desc}}</span></h2>
+					<p>IUPAC:<span class='answer' style='display:none'>{{card.desc}}</span></p>
 				</figure>
 			</li>
 			{% endfor %}
@@ -135,6 +139,7 @@
      * requestAnimationFrame and cancel polyfill
      */
     (function() {
+    	window.scrollTo(0, 1);
         var lastTime = 0;
         var vendors = ['ms', 'moz', 'webkit', 'o'];
         for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
@@ -159,7 +164,7 @@
             };
 			
 		$('span.answer').hide();
-	  	$("h2").click(function(){
+	  	$('figure.back').click(function(){
 	    	$(this).find('span.answer').toggle('show');
 	  	});
     }());
@@ -290,6 +295,9 @@
                         self.showPane(current_pane, true);
                     }
                     break;
+                case 'doubletap':
+                	self.next();
+                	break;
             }
         }
 

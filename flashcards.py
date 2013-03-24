@@ -11,6 +11,7 @@ def get_img(name):
     tbl = soup.find('table', 'infobox')
     img = tbl.find('img')['src']
     desc = tbl.find(text="IUPAC").findParent('tr').findNext('tr').find('td').text
+    #desc = '7-Chloro-3-hydroxy-5-phenyl-1,3-dihydro-1,4-benzodiazepin-2-one'
     return img, desc
 
 app = Flask(__name__)
@@ -65,4 +66,4 @@ def insert(name):
     return 'ok'
     
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
