@@ -42,6 +42,12 @@ def hello():
     q = "SELECT * FROM items ORDER BY RANDOM() limit 25;"
     rz = query_db(q)
     return render_template("card.html", cards=rz)
+    
+@app.route("/iupac")
+def iupac():
+    q = "SELECT * FROM items ORDER BY RANDOM() limit 25;"
+    rz = query_db(q)
+    return render_template("card2.html", cards=rz)
 
 @app.route("/show/<name>")
 def show(name):
