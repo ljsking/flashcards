@@ -47,7 +47,7 @@ def structure(page=0):
     if page == 0:
         q = "SELECT * FROM items ORDER BY RANDOM() limit 25;"
     else:
-        q = "SELECT * FROM items limit %d offset %d ;"%(50, (page-1)*50)
+        q = "SELECT * FROM items limit %d offset %d ;"%(30, (page-1)*30)
     rz = query_db(q)
     return render_template("card.html", cards=rz)
     
@@ -57,7 +57,7 @@ def iupac(page=0):
     if page == 0:
         q = "SELECT * FROM items ORDER BY RANDOM() limit 25;"
     else:
-        q = "SELECT * FROM items limit %d offset %d ;"%(50, (page-1)*50)
+        q = "SELECT * FROM items limit %d offset %d ;"%(30, (page-1)*30)
     rz = query_db(q)
     return render_template("card2.html", cards=rz)
 
