@@ -1,5 +1,5 @@
 <ul>
 {% for item in items %}
- 	<li><a href="{{ url_for('show', name=item.name) }}">{{ item.name }}</a> | <a href="{{ url_for('insert', name=item.name) }}">update</a></li>
+ 	<li><a href="{{ url_for('show', name=item.name) }}">{{ item.name }}</a> | <a href="{{ url_for('insert', name=item.name) }}">update</a> | <a href="{{ url_for('delete', name=item.name) }}">delete</a></li>
 {% endfor %}
 </ul>

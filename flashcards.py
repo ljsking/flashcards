@@ -1,6 +1,6 @@
 import urllib2
 import sqlite3
-from flask import Flask, g, render_template
+from flask import Flask, g, render_template, redirect, url_for
 
 def get_img(name):
     opener = urllib2.build_opener()
@@ -39,7 +39,7 @@ def teardown_request(exception):
 
 @app.route("/")
 def hello():
-    q = "SELECT * FROM items ORDER BY RANDOM() LIMIT 5;"
+    q = "SELECT * FROM items ORDER BY RANDOM() limit 25;"
     rz = query_db(q)
     return render_template("card.html", cards=rz)
 
@@ -64,6 +64,15 @@ def insert(name):
         g.db.execute('update items set img=?, desc=? where name=?', (img, desc, name))
     g.db.commit()
     return 'ok'
+    
+@app.route("/delete/<name>")
+def delete(name):
+    try:
+        g.db.execute('delete from items where name = "%s"'%name)
+    except sqlite3.IntegrityError:
+        logging.exception('')
+    g.db.commit()
+    return redirect(url_for('list'))
     
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
