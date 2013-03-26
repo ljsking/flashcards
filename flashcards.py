@@ -36,16 +36,28 @@ def before_request():
 def teardown_request(exception):
     if hasattr(g, 'db'):
         g.db.close()
-
+        
 @app.route("/")
-def hello():
-    q = "SELECT * FROM items ORDER BY RANDOM() limit 25;"
+def index():
+    return render_template("index.html")
+
+@app.route("/structure")
+@app.route("/structure/<int:page>")
+def structure(page=0):
+    if page == 0:
+        q = "SELECT * FROM items ORDER BY RANDOM() limit 25;"
+    else:
+        q = "SELECT * FROM items limit %d offset %d ;"%(50, (page-1)*50)
     rz = query_db(q)
     return render_template("card.html", cards=rz)
     
 @app.route("/iupac")
-def iupac():
-    q = "SELECT * FROM items ORDER BY RANDOM() limit 25;"
+@app.route("/iupac/<int:page>")
+def iupac(page=0):
+    if page == 0:
+        q = "SELECT * FROM items ORDER BY RANDOM() limit 25;"
+    else:
+        q = "SELECT * FROM items limit %d offset %d ;"%(50, (page-1)*50)
     rz = query_db(q)
     return render_template("card2.html", cards=rz)
 
